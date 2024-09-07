@@ -1,13 +1,10 @@
-import sys
-import os
 import streamlit as st
-import pyperclip
 import json
+import itertools
 from enigma.rotor import Rotor
 from enigma.reflector import Reflector
 from enigma.plugboard import Plugboard
 from enigma.enigma_machine import EnigmaMachine
-import itertools
 
 def apply_configuration(imported_config):
     try:
@@ -41,7 +38,7 @@ def brute_force_enigma(ciphertext, crib, rotors, reflector, plugboard):
     return None, None
 
 def main():
-    st.title("Enigma Machine")
+    st.title("Simulación de la Máquina Bombe")
 
     # Show logo, contact and website in the sidebar
     with st.sidebar:
@@ -123,19 +120,6 @@ def main():
                 plugboard_dict[pair[1].upper()] = pair[0].upper()
     
     plugboard = Plugboard(plugboard_dict)
-
-    # Create the Enigma machine with the current configuration
-    enigma = EnigmaMachine(selected_rotors, reflector_B, plugboard)
-
-    # Text input for encryption/decryption
-    st.header("Message Encryption/Decryption")
-    message = st.text_input("Enter the message:")
-
-    # Button for encryption/decryption
-    if st.button("Encrypt/Decrypt"):
-        encrypted_message = enigma.encrypt_decrypt(message)
-        st.write("Encrypted/Decrypted message:")
-        st.code(encrypted_message, language='')
 
     # Brute force decryption
     st.header("Brute Force Decryption")
